@@ -1,25 +1,22 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
-	"github.com/jiraiya/notabot"
+	"github.com/jiraiya/cumul/models"
+	"github.com/jiraiya/cumul/routes"
 )
 
-var router *gin.Engine
-
-func ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
-}
+var (
+	router *gin.Engine
+)
 
 func main() {
-	fmt.Println("Hello, world !")
+	// initialize database
+	models.InitDB()
+	// setup router
 	router := gin.Default()
-	router.GET("/ping", ping)
-	router.GET("/notabot", notabot.RandomArithmatics)
-
+	// initialize routes for endpoints
+	routes.Init(router)
 	router.Run(":8000")
+
 }
