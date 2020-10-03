@@ -49,14 +49,20 @@ func UserExists(userid string) (exists bool) {
 }
 
 // StoreUrls store all the urls for the given user
-func StoreUrls(userid string, urls []string) (bool, error) {
+func StoreUrls(userid string, urls map[string]string) (bool, error) {
 	res := true
 	var Err error
 	if len(urls) > 0 {
 		// save the urls
-		for _, u := range urls {
-			u = strings.Trim(u, " ")
-			ins, err := DB.Query("insert into urls (url, userid) values (?, ?)", u, userid)
+		for name, url := range urls {
+			url = strings.Trim(url, " ")
+			// add http:// if url doesn't have it
+			httpPrefix := strings.HasPrefix(url, "http://")
+			httpsPrefix := strings.HasPrefix(url, "https://")
+			if !(httpPrefix || httpsPrefix) {
+				url = "http://" + url
+			}
+			ins, err := DB.Query("insert into urls (urlname, url, userid) values (?, ?, ?)", name, url, userid)
 			if err != nil {
 				res = false
 				Err = err
@@ -69,9 +75,10 @@ func StoreUrls(userid string, urls []string) (bool, error) {
 }
 
 // FetchUrls : fetches all the urls for the given userid
-func FetchUrls(userid string) (urls []string, err error) {
+func FetchUrls(userid string) (urls map[string]string, err error) {
 	var result *sql.Rows
-	result, err = DB.Query("Select distinct(url) from urls where userid = ?", userid)
+	urls = make(map[string]string)
+	result, err = DB.Query("Select urlname, url from urls where userid = ? group by urlname, url", userid)
 	if err != nil {
 		urls = nil
 		return
@@ -79,12 +86,17 @@ func FetchUrls(userid string) (urls []string, err error) {
 
 	for result.Next() {
 		var url string
-		if err = result.Scan(&url); err != nil {
+		var urlname string
+		if err = result.Scan(&urlname, &url); err != nil {
 			urls = nil
 			break
 		}
-
-		urls = append(urls, url)
+		if url != "" {
+			if urlname == "" {
+				urlname = url[:20]
+			}
+			urls[urlname] = url
+		}
 	}
 	return
 }

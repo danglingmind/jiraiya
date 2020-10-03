@@ -20,6 +20,9 @@ func Init(router *gin.Engine) {
 	// random arithmatics with ans
 	router.GET("/notabot", notabot.RandomArithmatics)
 
+	// load all the htmls
+	router.LoadHTMLGlob("cumul/templates/*")
+
 	// cumul app
 	cumul := router.Group("/cumul")
 	{

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -33,25 +34,18 @@ func UserURLStore(c *gin.Context) {
 	if models.UserExists(useridParam) {
 		// iterate over all the urls and store them into db
 		// this should be moved out of here and added into Async Queue
-		urlsFromReq := make(map[string]interface{})
+		urlsFromReq := make(map[string]string)
 		c.BindJSON(&urlsFromReq)
-		// loop over all the urls
-		urlArray := make([]string, 0)
-		for _, value := range urlsFromReq {
-			if url, ok := value.(string); ok {
-				urlArray = append(urlArray, url)
-			}
-		}
 
 		// if no url given
-		if len(urlArray) == 0 {
+		if len(urlsFromReq) == 0 {
 			c.JSON(200, gin.H{
 				"message": "Please provide data",
 			})
 			return
 		}
 
-		added, err := models.StoreUrls(useridParam, urlArray)
+		added, err := models.StoreUrls(useridParam, urlsFromReq)
 		if !added {
 			c.JSON(500, gin.H{
 				"err": err.Error(),
@@ -81,29 +75,38 @@ func UserURLFetch(c *gin.Context) {
 		return
 	}
 	// Fetch the urls for this user
-	urls, err := models.FetchUrls(useridParam)
+	urlMap, err := models.FetchUrls(useridParam)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"err": err.Error(),
 		})
 		return
 	}
-	if len(urls) == 0 {
+	if len(urlMap) == 0 {
 		c.JSON(200, gin.H{
 			"err":     nil,
 			"messege": "Zero URL available",
 		})
 		return
 	}
-	// TODO : prepare a html page with these URLS
-	// prepare a JSON for these urls
-	urlMap := make(map[int]string)
-	for i, u := range urls {
-		urlMap[i] = u
+	// JSON output
+	// c.JSON(200, gin.H{
+	// 	"urls": urlMap,
+	// })
+
+	// // render html
+	type urlstruct struct {
+		Urlname string
+		URL     string
 	}
-
-	c.JSON(200, gin.H{
-		"urls": urlMap,
+	urlmapout := make([]urlstruct, 0)
+	for k, v := range urlMap {
+		temp := urlstruct{Urlname: k, URL: v}
+		urlmapout = append(urlmapout, temp)
+	}
+	fmt.Println(urlmapout)
+	c.HTML(200, "home1.tmpl", gin.H{
+		"user": useridParam,
+		"urls": urlmapout,
 	})
-
 }
