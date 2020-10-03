@@ -11,11 +11,8 @@ create table user
 
 create table urls(
 	urlid int not null primary key auto_increment, 
-    userid varcharacter
-(5) not null,
+    userid varcharacter(5) not null,
     created timestamp default current_timestamp,
     url TEXT not null,
-    foreign key
-(userid) references user
-(userid)
+    foreign key(userid) references user(userid)
     );

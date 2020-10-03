@@ -18,5 +18,4 @@ func main() {
 	// initialize routes for endpoints
 	routes.Init(router)
 	router.Run(":8000")
-
 }
