@@ -1,0 +1,62 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+
+}
+
+html {
+	/*display: table;*/
+	margin: auto;
+}
+
+body {
+	position: relative;
+	background: rgb(0, 0, 0);
+	padding: 20px;
+    /*display: table-cell;*/
+    vertical-align: top;
+    text-align: center;
+    width: 100%;
+    font-family: "Courier";
+}
+
+div {
+	width: 100%;
+	height: 
+}
+
+h1 {
+	color: rgba(255, 255, 255, 0.8);
+	text-shadow: 0 5px 15px #11e8e9;
+	font-size: 5vw;
+}
+
+input {
+  padding: 10px;
+  margin: 10px 10px;
+  outline: none;
+  border-radius: 5px;
+  border:0;
+  max-width: 300px;
+
+}
+
+input[type=text], input[type=url] {
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  width: 40%;
+}
+
+input[type=button] {
+  background: #10dadb ;
+  border-radius: 20px; 
+  color: #ffff;
+  font-weight: bold;
+}
+
+input[type=button]:hover {
+  background: #11e8e9;
+  box-shadow: 0 0 50px #11e8e9;
+}
