@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <script>
+        async function checkUser() {
+            var userid = document.getElementById("userid").value;
+            let response = await fetch('http://localhost:8000/cumul/' + userid + '/new');
+            let res = await response.json()
+            console.log(res)
+            if (response.ok) {
+                window.location = "http://localhost:8000/render/cumul/user/inputurl/" + userid;
+            } else {
+                alert("Enter a unique userID/nUserid should not exceeds 5 letters");
+            }
+        }
+    </script>
+</head>
+
+<body style="align-items: center;">
+    <h1 style="color: rgb(128, 128, 128);font-size: 50px;text-align: center;">GET A USERNAME</h1>
+    <div style="position: absolute;top: 50%;left: 50%;margin: -100px 0 0 -150px;width: 500px;height: 300px;">
+        <input type="text" id="userid" placeholder="UserID must be Unique"><input type="button" onclick="checkUser()"
+            value="GO!"></div>
+</body>
+
+</html>
