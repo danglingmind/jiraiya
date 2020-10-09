@@ -30,5 +30,10 @@ func Init(router *gin.Engine) {
 		cumul.POST("/:userid", cumulHandlers.UserURLStore) // this will store the URLs
 		cumul.GET("/:userid/new", cumulHandlers.NewUser)
 	}
+	cumulrender := router.Group("render/cumul")
+	{
+		cumulrender.GET("/user/register", cumulHandlers.RegisterRender)
+		cumulrender.GET("/user/inputurl/:userid", cumulHandlers.InputURL)
+	}
 
 }

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -11,6 +12,14 @@ import (
 // NewUser : create the valid userid
 func NewUser(c *gin.Context) {
 	useridParam := c.Param("userid")
+	// userid must not be more than 5 character
+	if len(useridParam) > 5 {
+		c.JSON(500, gin.H{
+			"message": "UserID must be less than 5 characters",
+			"err":     errors.New("UserID length exceeds"),
+		})
+		return
+	}
 	// TODO : validate userid
 
 	// insert into table

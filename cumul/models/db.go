@@ -38,6 +38,8 @@ func AddUser(userid string) (added bool, err error) {
 
 // UserExists check whether user is present in the DB
 func UserExists(userid string) (exists bool) {
+	//TODO : validate user
+
 	var user string
 	exists = true
 	err := DB.QueryRow("select userid from user where userid=?", userid).Scan(&user)
