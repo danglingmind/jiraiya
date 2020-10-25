@@ -1,63 +1,28 @@
 <html>
-<h1>{{.user}}</h1>
 
 <head>
-    <script>
-        var urlId = 2;
-
-        function save() {
-            urlname = document.getElementById("label1");
-            url = document.getElementById("url1");
-            json = {
-                urlname: url
-            };
-            for (i = urlId; i > 0; i--) {
-                urlname = document.getElementById('label' + i);
-                url = document.getElementById('url' + i);
-                json[urlname] = url;
-            }
-            console.log(json)
-            // call the api to store the data
-            var apiurl = '{{.user}}'
-            fetch(apiurl, {
-                method: 'POST', // or 'PUT'
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(json),
-            })
-                .then((response) => response.json())
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
-        function add() {
-            urlId++;
-            var newUrlInput = '<tr><td><input type="text" id="label' + urlId + '" placeholder="Enter NAME"></td><td><input type="text" id="url' + urlId + '" placeholder="Enter URL"></td></tr>';
-            document.getElementById("wrapper").innerHTML += newUrlInput;
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/assets/css/test.css">
+    <script type="text/javascript" src="http://localhost:8000/assets/js/test.js"></script>
 </head>
 
 <body>
-    <h1 style="color: rgb(128, 128, 128);font-size: 50px;text-align: center;">ENTER LINKS</h1>
-    <div id="wrapperdiv"
-        style="position: absolute;top: 50%;left: 50%;margin: -100px 0 0 -150px;width: 500px;height: 300px;">
-        <table id="wrapper">
-            <tr>
-                <td>
-                    <input type="text" id="label1" placeholder="Enter NAME">
-                </td>
-                <td>
-                    <input type="url" id="url1" placeholder="Enter URL">
-                </td>
-            </tr>
-        </table>
+    <h1 style="text-transform: uppercase;">{{.user}}</h1>
+    <div>
+        <input type="button" name="add" id="addbutton" value="+ URL" onclick="addRow()">
+        <input type="button" name="save" id="savebutton" value="  SAVE  " onclick="save()">
     </div>
-    <div style="position: absolute;top: 30%;left: 50%;margin: -100px 0 0 -150px;width: 500px;height: 300px;">
-        <input type="button" onclick="save()" value="SAVE"><input type="button" onclick="add()" value="ADD">
-    </div>
+    <br>
 
+    <div id="inputs"></div>
+    <div><a href="http://localhost:8000/cumul/{{.user}}" target="_blank">See Your Home</a></div>
+
+    <script>
+        window.onload = function () {
+            loadSavedURLs();
+            checkUserSession();
+        }
+    </script>
 </body>
 
 </html>

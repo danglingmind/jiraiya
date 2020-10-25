@@ -22,14 +22,14 @@ func InitDB() {
 }
 
 // AddUser Store the user
-func AddUser(userid string) (added bool, err error) {
+func AddUser(userid string, password string) (added bool, err error) {
 	added = true
-	stmt, err := DB.Prepare("INSERT INTO user (userid) values (?)")
+	stmt, err := DB.Prepare("INSERT INTO user (userid, password) values (?,?)")
 	if err != nil {
 		added = false
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(userid)
+	_, err = stmt.Exec(userid, password)
 	if err != nil {
 		added = false
 	}
@@ -38,16 +38,25 @@ func AddUser(userid string) (added bool, err error) {
 
 // UserExists check whether user is present in the DB
 func UserExists(userid string) (exists bool) {
-	//TODO : validate user
-
 	var user string
 	exists = true
 	err := DB.QueryRow("select userid from user where userid=?", userid).Scan(&user)
 	if err != nil || user == "" {
 		exists = false
-		return
 	}
+
 	return
+}
+
+// UserLogin returns true if successfully logged in
+func UserLogin(userid string, password string) bool {
+	var user string
+	exists := true
+	err := DB.QueryRow("select userid from user where userid=? and password=?", userid, password).Scan(&user)
+	if err != nil || user == "" {
+		exists = false
+	}
+	return exists
 }
 
 // StoreUrls store all the urls for the given user
