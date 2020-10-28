@@ -14,7 +14,7 @@ html {
 
 body {
 	position: relative;
-	background: rgb(0, 0, 0);
+	background: rgb(54, 90, 128);
 	padding: 20px;
     /*display: table-cell;*/
     vertical-align: top;
@@ -34,7 +34,7 @@ h1 {
 }
 
 h2,h3 {
-  color: aliceblue;
+  color: cyan;
 }
 
 input {
@@ -48,12 +48,12 @@ input {
 }
 
 input[type=text], input[type=url] {
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  box-shadow:0 0 15px 4px rgba(78, 85, 143, 0.954);
   width: 40%;
 }
 
 input[type=button] {
-  background: #10dadb ;
+  background: cyan ;
   border-radius: 20px; 
   color: #ffff;
   font-weight: bold;

@@ -130,6 +130,11 @@ async function userExists(userid) {
     }
 }
 
+function logout(userid) {
+    sessionStorage.clear("userid")
+    window.location = "http://localhost:8000/render/cumul/user/register";
+}
+
 async function loadSavedURLs() {
     console.log('called');
     userid = sessionStorage.getItem("userid");

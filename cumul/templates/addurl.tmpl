@@ -4,6 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="http://localhost:8000/assets/css/test.css">
     <script type="text/javascript" src="http://localhost:8000/assets/js/test.js"></script>
+    <script>
+        $(function () {
+            $("#includedLogoutButton").load("logout.tmpl");
+        });
+    </script>
 </head>
 
 <body>
@@ -15,8 +20,8 @@
     <br>
 
     <div id="inputs"></div>
-    <div><a href="http://localhost:8000/cumul/{{.user}}" target="_blank">See Your Home</a></div>
-
+    <div><a href="http://localhost:8000/cumul/{{.user}}" target="_blank" style="color: cyan;">See Your Home</a></div>
+    <div><input type="button" class="logoutbutton" value="Logout" onclick="logout()"></div>
     <script>
         window.onload = function () {
             loadSavedURLs();
