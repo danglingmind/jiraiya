@@ -14,7 +14,7 @@ html {
 
 body {
 	position: relative;
-	background: rgb(0, 0, 0);
+	background: rgb(54, 90, 128);
 	padding: 20px;
     /*display: table-cell;*/
     vertical-align: top;
@@ -24,14 +24,17 @@ body {
 }
 
 div {
-	width: 100%;
-	height: 
+	width: 100%; 
 }
 
 h1 {
 	color: rgba(255, 255, 255, 0.8);
-	text-shadow: 0 5px 15px #11e8e9;
+	text-shadow: 0 0 20px #11e8e9;
 	font-size: 5vw;
+}
+
+h2,h3 {
+  color: cyan;
 }
 
 input {
@@ -45,12 +48,12 @@ input {
 }
 
 input[type=text], input[type=url] {
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  box-shadow:0 0 15px 4px rgba(78, 85, 143, 0.954);
   width: 40%;
 }
 
 input[type=button] {
-  background: #10dadb ;
+  background: cyan ;
   border-radius: 20px; 
   color: #ffff;
   font-weight: bold;

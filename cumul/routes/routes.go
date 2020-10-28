@@ -22,13 +22,19 @@ func Init(router *gin.Engine) {
 
 	// load all the htmls
 	router.LoadHTMLGlob("cumul/templates/*")
+	// load static
+	router.Static("assets/css", "cumul/assets/css")
+	router.Static("assets/js", "cumul/assets/scripts")
 
 	// cumul app
 	cumul := router.Group("/cumul")
 	{
-		cumul.GET("/:userid", cumulHandlers.UserURLFetch)  // this will fetch all the URLs
-		cumul.POST("/:userid", cumulHandlers.UserURLStore) // this will store the URLs
-		cumul.GET("/:userid/new", cumulHandlers.NewUser)
+		cumul.GET("/:userid", cumulHandlers.UserHome)              // this is the Home Screen
+		cumul.GET("/:userid/urls", cumulHandlers.UrlFetch)         // returns all the stored URLs
+		cumul.POST("/:userid", cumulHandlers.UserURLStore)         // this will store the URLs
+		cumul.GET("/:userid/new/:password", cumulHandlers.NewUser) // add new user
+		cumul.GET("/:userid/check", cumulHandlers.CheckUser)       // check if user exists
+		cumul.GET("/:userid/login/:password", cumulHandlers.Login) // check if user exists
 	}
 	cumulrender := router.Group("render/cumul")
 	{
